@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+<!--Overrides html setup from layout template and allows
+replacement of the content block. What is below the content
+block here is what would be inside of the body tag.-->
+{% block content %}
+<div class="header">
+    <h1 id="main-header">🔥 Burner Mail 🔥</h1>
+    <h3 id="main-subheader">Simple Burner E-Mail Utility</h3>
+</div>
+
+<button id="login" onclick="location.href='{{ url_for('register') }}'">Sign Up</button>
+{% endblock %}
