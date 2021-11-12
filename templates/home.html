@@ -3,18 +3,9 @@
 replacement of the content block. What is below the content
 block here is what would be inside of the body tag.-->
 {% block content %}
-    <ul id="navbar" class="nav justify-content-end">
-        <li class="nav-item">
-            <button class="btn btn-dark btn-outline-success float-right" onclick="location.href='{{ url_for('register') }}'">Sign Up</button>
-        </li>
-        <li class="nav-item">
-            <button class="btn btn-dark btn-outline-info" onclick="location.href='{{ url_for('login') }}'">Login</button>
-        </li>
-    </ul>
-
-    <div class="header">
-        <h1 id="main-header">🔥 Burner Mail 🔥</h1>
-        <h3 id="main-subheader">Simple Burner E-Mail Utility</h3>
+    <div class="header text-center justify-content-center">
+        <h1 class="col-sm-12">🔥 Burner Mail 🔥</h1>
+        <h3>Simple Burner E-Mail Utility</h3>
     </div>
 
     <div class="generator">
@@ -22,8 +13,8 @@ block here is what would be inside of the body tag.-->
             <h5>Generate a burner email below.</h5>
         </div>
         <div id="gen-body" class="form-group row justify-content-center">
-            <input class="form-control col-sm-6" type="text" placeholder="Copy and save your new burner email from here." readonly>
-            <button class="btn btn-info col-sm-1">Generate</button>
+            <input class="form-control col-md-9 text-left" type="text" placeholder="Click generate to populate" readonly>
+            <button class="btn btn-info col-md-3 text-center">Generate</button>
         </div>
     </div>
 {% endblock %}

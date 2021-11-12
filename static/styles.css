@@ -9,7 +9,6 @@ body {
 
 .header {
     margin: auto;
-    text-align: center;
     width: 50%;
 }
 
@@ -20,15 +19,6 @@ body {
 
 .nav-item {
     margin-right: 5px;
-}
-
-#login {
-    width: 10%;
-    height: 100%;
-    text-align: center;
-    position: absolute;
-    right: 0%;
-    top: 0%;
 }
 
 div, #navbar {
@@ -42,7 +32,7 @@ div, #navbar {
 }
 
 .generator {
-    width: 75%;
+    width: 50%;
     height: 200px;
     margin: 50px auto auto;
     text-align: center;
@@ -54,4 +44,8 @@ div, #navbar {
 
 #gen-body {
     margin: 0 auto;
+}
+
+#gen-btn {
+    text-align: center;
 }
