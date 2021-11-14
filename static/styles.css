@@ -14,7 +14,7 @@ body {
 
 #navbar {
     height: 40px;
-    margin: 0px 30px
+    margin: 0 30px
 }
 
 .nav-item {
@@ -22,30 +22,32 @@ body {
 }
 
 div, #navbar {
-    /*border: 3px dashed green;*/
+    border: 3px dashed green;
 }
 
-.output-field {
-    width: 50%;
-    height: 100%;
-    float: left;
-}
-
-.generator {
+/*Home page*/
+.h-generator {
     width: 50%;
     height: 200px;
     margin: 50px auto auto;
     text-align: center;
 }
 
-#gen-header {
+#h-gen-header {
     margin-top: 1%;
 }
 
-#gen-body {
+#h-gen-body {
     margin: 0 auto;
 }
 
-#gen-btn {
+#h-gen-btn {
     text-align: center;
+}
+
+/*About page*/
+.ab-benefits {
+    width: 60%;
+    margin-left: 20%;
+    padding-top: 2.5%;
 }
