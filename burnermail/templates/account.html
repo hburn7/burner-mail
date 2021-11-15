@@ -1,5 +1,79 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1>{{ current_user.email }}</h1>
+    <h2 class="account-heading text-monospace text-center text-info">Account Settings</h2>
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ add_forward_form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4 text-info">Add Forwarding Addresses</legend>
+                <p class="text-muted">Forwarding addresses are the email addresses that your burner emails can forward to.
+                These need to be verified upon submission.</p>
+
+                <div class="form-group">
+                    {{ add_forward_form.email.label(class="form-control-label") }}
+                    {% if add_forward_form.email.errors %}
+                        {{ add_forward_form.email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in add_forward_form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ add_forward_form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ add_forward_form.submit_forward(class="btn btn-outline-success") }}
+                </div>
+
+                <h2 class="text-monospace text-center text-info">Burner Emails</h2>
+                {% if current_user.burner_emails %}
+                    <table class="table table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Burner</th>
+                                <th scope="col">Forwards To</th>
+                                <th scope="col">Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for burner in current_user.burner_emails %}
+                                <tr>
+                                    <td class="text-monospace">{{ burner.burner_email }}</td>
+                                    <td class="text-monospace">{{ burner.forwards_to }}</td>
+                                    <td class="text-monospace">{{ burner.date_created.strftime('%b %d, %Y %H:%M UTC') }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <h5 class="text-danger text-center">You have no burner emails.</h5>
+                {% endif %}
+            </fieldset>
+        </form>
+
+        <form method="POST" action="">
+            {{ update_form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4 text-info">Update Account Information</legend>
+                <div class="form-group">
+                    <p class="form-control-label">Primary Email</p>
+                    {% if update_form.email.errors %}
+                        {{ update_form.email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in update_form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ update_form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ update_form.submit_update(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
 {% endblock %}

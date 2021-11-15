@@ -37,6 +37,10 @@ div, #navbar {
     margin: 50px auto auto;
 }
 
+.h-form-field {
+    font-size: 1rem;
+}
+
 #h-forward-label {
     margin-left: 16%;
 }

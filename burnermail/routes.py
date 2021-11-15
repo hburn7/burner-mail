@@ -2,25 +2,29 @@ import string
 
 import flask_login
 import random
+from datetime import datetime, timedelta
 from burnermail import app, db, bcrypt
-from burnermail.forms import RegistrationForm, LoginForm, BurnerForm
-from burnermail.models import User, BurnerEmail
+from burnermail.forms import RegistrationForm, LoginForm, BurnerForm, AccountUpdateForm, AccountForwardForm
+from burnermail.models import User, BurnerEmail, ForwardAddress
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
+from sqlalchemy import desc
 
 LETTERS = string.ascii_letters
+NUMBERS = string.digits
+CHOICES = LETTERS + NUMBERS
 
 @app.route('/', methods=['GET', 'POST'])
 def home():  # put application's code here
+    form = BurnerForm()
     if current_user.is_authenticated:
-        form = BurnerForm()
         if form.validate_on_submit():
             forwards_to = form.forwards_to.data
 
             # Generates burner email address
             def generate_burner():
                 amount = random.randrange(6, 11)
-                ret = ''.join(random.choice(LETTERS) for _ in range(amount)).join('@stagec.xyz')
+                ret = ''.join(random.choice(CHOICES) for x in range(amount)) + '@stagec.xyz'
                 return BurnerEmail(burner_email=ret, forwards_to=forwards_to, user_id=current_user.get_id())
 
             burner = generate_burner()
@@ -30,9 +34,15 @@ def home():  # put application's code here
 
             db.session.add(burner)
             db.session.commit()
-            return render_template('home.html', title='Home', form=form)
+            # todo: Perhaps change to redirect
+            return redirect(url_for('home'))
+        elif request.method == 'GET':
+            recent_burner = BurnerEmail.query.filter_by(user_id=current_user.get_id()).order_by(desc(BurnerEmail.date_created)).first()
 
-    return render_template('home.html', title='Home')
+            if recent_burner and recent_burner.date_created > datetime.utcnow() - timedelta(seconds=1):
+                form.burner_email.data = recent_burner.burner_email
+
+    return render_template('home.html', title='Home', form=form)
 
 @app.route('/about')
 def about():
@@ -80,7 +90,22 @@ def logout():
     return redirect(url_for('home'))
 
 # Account route
-@app.route('/account')
+@app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
-    return render_template('account.html', title='User Account')
+    update_form = AccountUpdateForm()
+    add_forward_form = AccountForwardForm()
+    if update_form.submit_update.data and update_form.validate_on_submit():
+        current_user.email = update_form.email.data
+        db.session.commit()
+        flash(f'Your account has been updated. New Email: {update_form.email.data}', 'success')
+        return redirect(url_for('account'))
+    if add_forward_form.submit_forward.data and add_forward_form.validate_on_submit():
+        new_forward = ForwardAddress(email=add_forward_form.email.data, user_id=current_user.get_id())
+        db.session.add(new_forward)
+        db.session.commit()
+        flash(f'Successfully added forward address: {add_forward_form.email.data}. Please check your inbox for verification.', 'success')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        update_form.email.data = current_user.email
+    return render_template('account.html', title='User Account', update_form=update_form, add_forward_form=add_forward_form)

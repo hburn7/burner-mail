@@ -12,6 +12,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     burner_emails = db.relationship('BurnerEmail', backref='owner', lazy=True)
+    forward_addresses = db.relationship('ForwardAddress', backref='owner', lazy=True)
 
     def __repr__(self):
         return f"User('{self.id}', '{self.email}', '{self.date_created}')"
@@ -25,3 +26,12 @@ class BurnerEmail(db.Model):
 
     def __repr__(self):
         return f"BurnerEmail('{self.id}', '{self.burner_email}', {self.forwards_to}, {self.date_created}'"
+
+class ForwardAddress(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(128), unique=True, nullable=False)
+    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return f"ForwardAddress('{self.id}', '{self.email}', {self.date_created}, {self.user_id}'"
