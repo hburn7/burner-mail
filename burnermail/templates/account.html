@@ -8,7 +8,7 @@
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4 text-info">Add Forwarding Addresses</legend>
                 <p class="text-muted">Forwarding addresses are the email addresses that your burner emails can forward to.
-                These need to be verified upon submission.</p>
+                These need to be verified upon submission through a verification email.</p>
 
                 <div class="form-group">
                     {{ add_forward_form.email.label(class="form-control-label") }}
@@ -26,6 +26,12 @@
                 <div class="form-group">
                     {{ add_forward_form.submit_forward(class="btn btn-outline-success") }}
                 </div>
+
+                <h2 class="text-monospace text-center text-info">Forwarding Addresses</h2>
+                {% if current_user.forward_addresses %}
+                {% else %}
+                    <h5 class="text-danger text-center">You have no forwarding addresses. Add some above.</h5>
+                {% endif %}
 
                 <h2 class="text-monospace text-center text-info">Burner Emails</h2>
                 {% if current_user.burner_emails %}
@@ -48,7 +54,7 @@
                         </tbody>
                     </table>
                 {% else %}
-                    <h5 class="text-danger text-center">You have no burner emails.</h5>
+                    <h5 class="text-danger text-center">You have no burner emails. Generate some on the home page.</h5>
                 {% endif %}
             </fieldset>
         </form>
