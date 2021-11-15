@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+<!--Overrides html setup from layout template and allows
+replacement of the content block. What is below the content
+block here is what would be inside of the body tag.-->
+{% block content %}
+    <div class="header text-center justify-content-center">
+        <h1 class="col-sm-12">🔥 Burner Mail 🔥</h1>
+        <h3>Simple Burner E-Mail Utility</h3>
+    </div>
+
+    {% if current_user.is_authenticated %}
+        <div class="h-generator">
+            <div id="h-gen-header">
+                <h5 class="text-center">Generate a burner email below.</h5>
+            </div>
+            <form method="POST" action="">
+                {% if form %}
+                    {{ form.hidden_tag() }}
+                {% endif %}
+                <fieldset class="form-group pt-4">
+                    <small class="form-text text-muted" id="h-forward-label">Where should the burner forward emails to?</small>
+                    <div class="justify-content-center row">
+                        {% if form %}
+                            <input class="form-control col-lg-8 text-left text-monospace" type="email" placeholder="[Directing To]: {{ form.forwards_to.data }}" readonly>
+                            <input class="form-control col-lg-6 text-left text-monospace" type="text" placeholder="[Burner Address]: {{ form.burner_email.data }}" readonly>
+                            <button class="btn btn-danger col-lg-2 text-center" id="h-gen-btn">Generate</button>
+                        {% else %}
+                            <input class="form-control col-lg-8 text-left text-monospace" type="email" placeholder="personal@example.com">
+                            <input class="form-control col-lg-6 text-left text-monospace" type="text" placeholder="Click generate to populate" readonly>
+                            <button class="btn btn-danger col-lg-2 text-center" id="h-gen-btn">Generate</button>
+                        {% endif %}
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    {% else %}
+        <div class="h-generator">
+            <div id="h-gen-header">
+                <h5 class="text-center font-weight-bold text-danger">Please create an account or log in to access the utility.</h5>
+            </div>
+            <form>
+                <div class="form-group pt-4">
+                    <div class="justify-content-center row">
+                        <input class="form-control col-lg-8 text-left text-monospace" type="email" placeholder="<Disabled>" disabled>
+                        <input class="form-control col-lg-6 text-left text-monospace" type="text" placeholder="<Disabled>" disabled>
+                        <button class="btn btn-danger col-lg-2 text-center" id="h-gen-btn" disabled>Generate</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}

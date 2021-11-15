@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 
 body {
-    margin-top: 5rem;
     background-color: #222;
     color: #ddd;
     font-family: 'Raleway', sans-serif;
+    padding-bottom: 5%;
 }
 
 .header {
@@ -22,7 +22,12 @@ body {
 }
 
 div, #navbar {
-    border: 3px dashed green;
+    /*border: 3px dashed green;*/
+}
+
+/*Registration + Login pages*/
+.content-section {
+    margin: 0 20%;
 }
 
 /*Home page*/
@@ -30,24 +35,27 @@ div, #navbar {
     width: 50%;
     height: 200px;
     margin: 50px auto auto;
-    text-align: center;
+}
+
+#h-forward-label {
+    margin-left: 16%;
 }
 
 #h-gen-header {
     margin-top: 1%;
 }
 
-#h-gen-body {
-    margin: 0 auto;
-}
-
 #h-gen-btn {
-    text-align: center;
+    margin-left: 0.15%;
 }
 
 /*About page*/
-.ab-benefits {
+.ab-desc {
     width: 60%;
-    margin-left: 20%;
+    margin: 0 auto;
     padding-top: 2.5%;
+}
+
+.media-right {
+    margin-right: 0;
 }

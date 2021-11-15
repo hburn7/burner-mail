@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="BurnerMailTest" uuid="96db7282-a2b6-424f-8b66-31b0f1b5b0ed">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <remarks>Test DB</remarks>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://emeraldkingdoms.xyz:3306/burnermailtest</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="site" uuid="1fd493ed-1fbf-4a1f-a9cd-b525842cc72f">
+    <data-source source="LOCAL" name="site.db" uuid="1b476c28-7faf-4276-b09f-473cd914f6ba">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\hburn\Documents\github\burner-mail\site.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/burnermail/site.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
