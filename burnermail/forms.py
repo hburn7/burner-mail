@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_login import current_user
-from wtforms import EmailField, PasswordField, SubmitField, BooleanField, StringField
+from wtforms import EmailField, PasswordField, SubmitField, BooleanField, StringField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from burnermail.models import User, BurnerEmail
 
@@ -49,5 +49,9 @@ class AccountUpdateForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError('An account with this email already exists.')
+
+class ForwardSelectForm(FlaskForm):
+    email = SelectField('Forward Address', validators=[DataRequired(), Email()])
+
 
 

@@ -17,7 +17,7 @@ block here is what would be inside of the body tag.-->
                         <fieldset class="form-group">
                             <legend class="border-bottom mb-4 text-muted">Generate Burner Email</legend>
                             <div class="form-group">
-                                <p class="form-control-label">Forwarding Address</p>
+                                {{ select_form.email.label(class="form-control-label") }}
                                 {% if form.forwards_to.errors %}
                                     {{ form.forwards_to(class="form-control form-control-lg is-invalid") }}
                                     <div class="invalid-feedback">
@@ -26,15 +26,7 @@ block here is what would be inside of the body tag.-->
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
-                                            Select a forwarding address...
-                                    </button>
-                                    <div class="dropdown-menu">
-{#                                        TODO: Address issue with dropdown selection not updating button label#}
-                                        {% for forwarding_address in current_user.forward_addresses %}
-                                            <a class="dropdown-item" href="#">{{ forwarding_address.email }}</a>
-                                        {% endfor %}
-                                    </div>
+                                    {{ select_form.email(class="custom-select") }}
                                 {% endif %}
                             </div>
                             <div class="form-group">

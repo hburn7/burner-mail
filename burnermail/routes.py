@@ -4,7 +4,7 @@ import flask_login
 import random
 from datetime import datetime, timedelta
 from burnermail import app, db, bcrypt
-from burnermail.forms import RegistrationForm, LoginForm, BurnerForm, AccountUpdateForm, AccountForwardForm
+from burnermail.forms import RegistrationForm, LoginForm, BurnerForm, AccountUpdateForm, AccountForwardForm, ForwardSelectForm
 from burnermail.models import User, BurnerEmail, ForwardAddress
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
@@ -16,15 +16,19 @@ CHOICES = LETTERS + NUMBERS
 
 @app.route('/', methods=['GET', 'POST'])
 def home():  # put application's code here
-    form = BurnerForm()
+    burner_form = BurnerForm()
+    forward_select_form = ForwardSelectForm()
+
     if current_user.is_authenticated:
-        if form.validate_on_submit():
-            forwards_to = form.forwards_to.data
+        forward_select_form.email.choices = [x.email for x in current_user.forward_addresses]
+
+        if burner_form.validate_on_submit():
+            forwards_to = burner_form.forwards_to.data
 
             # Generates burner email address
             def generate_burner():
                 amount = random.randrange(6, 11)
-                ret = ''.join(random.choice(CHOICES) for x in range(amount)) + '@stagec.xyz'
+                ret = ''.join(random.choice(CHOICES) for _ in range(amount)) + '@stagec.xyz'
                 return BurnerEmail(burner_email=ret, forwards_to=forwards_to, user_id=current_user.get_id())
 
             burner = generate_burner()
@@ -36,13 +40,15 @@ def home():  # put application's code here
             db.session.commit()
             # todo: Perhaps change to redirect
             return redirect(url_for('home'))
+        elif forward_select_form.validate_on_submit():
+            burner_form.forwards_to.data = forward_select_form.email.data
         elif request.method == 'GET':
             recent_burner = BurnerEmail.query.filter_by(user_id=current_user.get_id()).order_by(desc(BurnerEmail.date_created)).first()
 
             if recent_burner and recent_burner.date_created > datetime.utcnow() - timedelta(seconds=1):
-                form.burner_email.data = recent_burner.burner_email
+                burner_form.burner_email.data = recent_burner.burner_email
 
-    return render_template('home.html', title='Home', form=form)
+    return render_template('home.html', title='Home', form=burner_form, select_form=forward_select_form)
 
 @app.route('/about')
 def about():
