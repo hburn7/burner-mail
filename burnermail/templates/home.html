@@ -17,7 +17,7 @@ block here is what would be inside of the body tag.-->
                         <fieldset class="form-group">
                             <legend class="border-bottom mb-4 text-muted">Generate Burner Email</legend>
                             <div class="form-group">
-                                {{ select_form.email.label(class="form-control-label") }}
+                                {{ form.forwards_to.label(class="form-control-label") }}
                                 {% if form.forwards_to.errors %}
                                     {{ form.forwards_to(class="form-control form-control-lg is-invalid") }}
                                     <div class="invalid-feedback">
@@ -26,7 +26,7 @@ block here is what would be inside of the body tag.-->
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    {{ select_form.email(class="custom-select") }}
+                                    {{ form.forwards_to(class="custom-select") }}
                                 {% endif %}
                             </div>
                             <div class="form-group">

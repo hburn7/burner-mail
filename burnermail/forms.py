@@ -22,7 +22,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 class BurnerForm(FlaskForm):
-    forwards_to = EmailField('Email', validators=[DataRequired(), Email()])
+    forwards_to = SelectField('Email', validators=[DataRequired(), Email()])
     burner_email = StringField('Burner Email')
     submit = SubmitField('Generate')
 
@@ -49,9 +49,5 @@ class AccountUpdateForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError('An account with this email already exists.')
-
-class ForwardSelectForm(FlaskForm):
-    email = SelectField('Forward Address', validators=[DataRequired(), Email()])
-
 
 
