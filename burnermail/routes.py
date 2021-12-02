@@ -97,7 +97,6 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-
 # Account route
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
@@ -121,3 +120,27 @@ def account():
         update_form.email.data = current_user.email
     return render_template('account.html', title='User Account', update_form=update_form,
                            add_forward_form=add_forward_form)
+
+# Deletes burner emails from the database
+@app.route("/delete/burner/<int:id>", methods=['POST'])
+@login_required
+def delete_burner(id):
+    BurnerEmail.query.filter_by(id=id).delete()
+    db.session.commit()
+    flash(f'Burner deleted successfully.', 'info')
+    return redirect(url_for('account'))
+
+# Deletes forward addresses from the database
+@app.route("/delete/forward_address/<int:id>", methods=['POST'])
+@login_required
+def delete_forward_address(id):
+    # Find all burner emails associated with this forward address and delete them.
+    match_query = ForwardAddress.query.filter_by(id=id)
+    match = match_query.first()
+    BurnerEmail.query.filter_by(forwards_to=match.email).delete()
+    match_query.delete()
+    db.session.commit()
+    flash(f'Forward address deleted successfully. All associated burners have been removed.', 'info')
+    return redirect(url_for('account'))
+
+

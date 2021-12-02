@@ -50,25 +50,16 @@ block here is what would be inside of the body tag.-->
                     </form>
                 </div>
             {% else %}
-                <h3 class="text-center text-bold text-danger">You do not have any verified forwarding addresses.</h3>
-                <h5 class="text-center text-bold text-warning">Visit the <a class="text-warning" href="{{ url_for('account') }}">account</a> page to setup!</h5>
-                <p class="text-center">Verified forwarding addresses are required to use the utility.</p>
+                <h3 class="text-monospace text-center text-bold text-danger">You do not have any verified forwarding addresses.</h3>
+                <h5 class="text-monospace text-center text-bold text-warning">Visit the <a class="text-warning" href="{{ url_for('account') }}">account</a> page to setup!</h5>
+                <p class="text-monospace text-center">Verified forwarding addresses are required to use the utility.</p>
             {% endif %}
         </div>
     {% else %}
         <div class="h-generator">
             <div id="h-gen-header">
-                <h5 class="text-center font-weight-bold text-danger">Please create an account or log in to access the utility.</h5>
+                <h5 class="text-monospace text-center font-weight-bold text-danger">Please create an account or log in to access the utility.</h5>
             </div>
-            <form>
-                <div class="form-group pt-4">
-                    <div class="justify-content-center row">
-                        <input class="form-control col-lg-8 text-left text-monospace" type="email" placeholder="<Disabled>" disabled>
-                        <input class="form-control col-lg-6 text-left text-monospace" type="text" placeholder="<Disabled>" disabled>
-                        <button class="btn btn-danger col-lg-2 text-center" id="h-gen-btn" disabled>Generate</button>
-                    </div>
-                </div>
-            </form>
         </div>
     {% endif %}
 {% endblock %}

@@ -7,6 +7,10 @@ body {
     padding-bottom: 5%;
 }
 
+.btn {
+    cursor: pointer;
+}
+
 .header {
     margin: auto;
     width: 50%;
