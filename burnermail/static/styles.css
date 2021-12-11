@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300&display=swap');
+
+body {
+    background-color: #222;
+    color: #ddd;
+    font-family: 'Readex Pro', sans-serif;
+    padding-bottom: 5%;
+}
+
+.btn {
+    cursor: pointer;
+}
+
+.header {
+    margin: auto;
+    width: 50%;
+}
+
+#navbar {
+    height: 40px;
+    margin: 0 30px
+}
+
+.nav-item {
+    margin-right: 5px;
+}
+
+div, #navbar {
+    /*border: 3px dashed green;*/
+}
+
+/*Registration + Login pages*/
+.content-section {
+    margin: 0 20%;
+}
+
+/*Home page*/
+.h-generator {
+    width: 50%;
+    height: 200px;
+    margin: 50px auto auto;
+}
+
+.h-form-field {
+    font-size: 1rem;
+}
+
+#h-forward-label {
+    margin-left: 16%;
+}
+
+#h-gen-header {
+    margin-top: 1%;
+}
+
+#h-gen-btn {
+    margin-left: 0.15%;
+}
+
+/*About page*/
+.ab-desc {
+    width: 60%;
+    margin: 0 auto;
+    padding-top: 2.5%;
+}
+
+.media-right {
+    margin-right: 0;
+}

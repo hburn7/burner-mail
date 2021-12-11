@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+<!--Overrides html setup from layout template and allows
+replacement of the content block. What is below the content
+block here is what would be inside of the body tag.-->
+{% block content %}
+    <div class="header text-center justify-content-center">
+        <h1 class="col-sm-12">🔥 Burner Mail 🔥</h1>
+        <h3>Simple Burner E-Mail Utility</h3>
+    </div>
+
+    {% if current_user.is_authenticated %}
+        <div class="h-generator">
+            {% if current_user.forward_addresses %}
+                <div class="content-section">
+                    <form method="POST" action="">
+                        {{ form.hidden_tag() }}
+                        <fieldset class="form-group">
+                            <legend class="border-bottom mb-4 text-muted">Generate Burner Email</legend>
+                            <div class="form-group">
+                                {{ form.forwards_to.label(class="form-control-label") }}
+                                {% if form.forwards_to.errors %}
+                                    {{ form.forwards_to(class="form-control form-control-lg is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.forwards_to.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.forwards_to(class="custom-select") }}
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.burner_email.label(class="form-control-label") }}
+
+                                {% if form.burner_email.errors %}
+                                    {{ form.burner_email(class="form-control form-control-lg is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.burner_email.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.burner_email(class="h-form-field form-control form-control-lg text-monospace", readonly=True) }}
+                                {% endif %}
+                            </div>
+                        </fieldset>
+                        <div class="form-group">
+                            {{ form.submit(class="btn btn-danger text-center", id="h-gen-btn") }}
+                        </div>
+                    </form>
+                </div>
+            {% else %}
+                <h4 class="text-monospace text-center text-bold text-warning">You do not have any verified forwarding addresses.</h4>
+                <p class="text-monospace text-center text-bold text-muted">Please visit the <a class="text-warning" href="{{ url_for('account') }}">account</a> page to continue setup!</p>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="h-generator">
+            <div id="h-gen-header">
+                <h5 class="text-monospace text-center font-weight-bold text-danger">Please create an account or log in to access the utility.</h5>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
