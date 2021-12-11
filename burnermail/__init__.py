@@ -14,8 +14,8 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
-all_words = set(x.strip() for x in open('static/language/words_alpha.txt') if len(x) < 7)
-bad_words = set(x.strip() for x in open('static/language/bad_words.txt'))
+all_words = set(x.strip() for x in open('burnermail/static/language/words_alpha.txt') if len(x) < 7)
+bad_words = set(x.strip() for x in open('burnermail/static/language/bad_words.txt'))
 usable_words = all_words - bad_words
 
 from burnermail import routes
