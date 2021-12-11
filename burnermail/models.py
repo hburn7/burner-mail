@@ -24,6 +24,7 @@ class BurnerEmail(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     burner_email = db.Column(db.String(128), unique=True, nullable=False)
     forwards_to = db.Column(db.String(128), nullable=False)
+    description = db.Column(db.String(128))
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 

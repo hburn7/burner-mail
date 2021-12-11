@@ -27,6 +27,7 @@ class LoginForm(FlaskForm):
 
 class BurnerForm(FlaskForm):
     forwards_to = SelectField('Email', validators=[DataRequired(), Email()])
+    description = StringField('Description')
     burner_email = StringField('Burner Email')
     submit = SubmitField('Generate')
 

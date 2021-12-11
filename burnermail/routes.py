@@ -2,6 +2,8 @@ import string
 import random
 
 from datetime import datetime, timedelta
+
+import burnermail
 from burnermail import app, db, bcrypt
 from burnermail.forms import RegistrationForm, LoginForm, BurnerForm, AccountUpdateForm, AccountForwardForm
 from burnermail.models import User, BurnerEmail, ForwardAddress
@@ -9,9 +11,8 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy import desc
 
-LETTERS = string.ascii_letters
-NUMBERS = string.digits
-CHOICES = LETTERS + NUMBERS
+NUMBERS = [x for x in range(1, 10)]
+WORDS = list(burnermail.all_words)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -23,12 +24,15 @@ def home():  # put application's code here
 
         if burner_form.validate_on_submit():
             forwards_to = burner_form.forwards_to.data
+            description = burner_form.description.data
 
-            # Generates burner email address
+            # Generates burner email address with two words and two numbers
             def generate_burner():
-                amount = random.randrange(6, 11)
-                ret = ''.join(random.choice(CHOICES) for _ in range(amount)) + '@stagec.xyz'
-                return BurnerEmail(burner_email=ret, forwards_to=forwards_to, user_id=current_user.get_id())
+                words = [random.choice(WORDS) for _ in range(2)]
+                numbers = [str(random.choice(NUMBERS)) for _ in range(2)]
+                ret = ''.join(words) + ''.join(numbers) + '@stagec.xyz'
+                return BurnerEmail(burner_email=ret, forwards_to=forwards_to, description=description,
+                                   user_id=current_user.get_id())
 
             burner = generate_burner()
             while BurnerEmail.query.filter_by(burner_email=burner.burner_email).first():
@@ -44,6 +48,7 @@ def home():  # put application's code here
 
             if recent_burner and recent_burner.date_created > datetime.utcnow() - timedelta(seconds=1):
                 burner_form.forwards_to.data = recent_burner.forwards_to
+                burner_form.description.data = recent_burner.description
                 burner_form.burner_email.data = recent_burner.burner_email
 
     return render_template('home.html', title='Home', form=burner_form)
@@ -97,6 +102,7 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+
 # Account route
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
@@ -121,8 +127,9 @@ def account():
     return render_template('account.html', title='User Account', update_form=update_form,
                            add_forward_form=add_forward_form)
 
+
 # Deletes burner emails from the database
-@app.route("/delete/burner/<int:id>", methods=['POST'])
+@app.route('/delete/burner/<int:id>', methods=['POST'])
 @login_required
 def delete_burner(id):
     BurnerEmail.query.filter_by(id=id).delete()
@@ -130,8 +137,9 @@ def delete_burner(id):
     flash(f'Burner deleted successfully.', 'info')
     return redirect(url_for('account'))
 
+
 # Deletes forward addresses from the database
-@app.route("/delete/forward_address/<int:id>", methods=['POST'])
+@app.route('/delete/forward_address/<int:id>', methods=['POST'])
 @login_required
 def delete_forward_address(id):
     # Find all burner emails associated with this forward address and delete them.
@@ -144,3 +152,6 @@ def delete_forward_address(id):
     return redirect(url_for('account'))
 
 
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    return request.args
